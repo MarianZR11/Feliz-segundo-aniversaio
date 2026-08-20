@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Feliz Segundo Aniversario</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-main: #e08bd5;
+      --card-bg: #e3cfdc;
+      --card-border: rgba(255, 255, 255, 0.7);
+      --accent: #8e2a82;
+      --text-primary: #111111;
+      --text-secondary: #444444;
+      --btn-bg: #111111;
+      --btn-text: #e3cfdc;
+      --disabled: #cccccc;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-primary);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 24px 16px;
+      background-image: radial-gradient(circle at 50% 0%, #f2a8e8 0%, var(--bg-main) 75%);
+    }
+
+    .container {
+      width: 100%;
+      max-width: 380px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 22px;
+    }
+
+    header {
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #6b1864;
+      background: rgba(255, 255, 255, 0.7);
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      box-shadow: 0 4px 10px rgba(107, 24, 100, 0.12), inset 0 2px 2px rgba(255, 255, 255, 0.8);
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: #111111;
+      text-shadow: 0 2px 4px rgba(255, 255, 255, 0.4);
+    }
+
+    /* Modal de Bienvenida 3D */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(8px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 24px;
+      z-index: 100;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .modal {
+      background: var(--card-bg);
+      border: 2px solid var(--card-border);
+      border-radius: 26px;
+      padding: 32px 24px;
+      text-align: center;
+      max-width: 340px;
+      box-shadow: 
+        0 20px 40px rgba(60, 10, 50, 0.25),
+        inset 0 3px 6px rgba(255, 255, 255, 0.9),
+        inset 0 -4px 6px rgba(0, 0, 0, 0.08);
+    }
+
+    .modal-icon {
+      font-size: 2.8rem;
+      margin-bottom: 16px;
+      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.15));
+    }
+
+    .modal p {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: var(--text-primary);
+      margin-bottom: 24px;
+      font-weight: 600;
+    }
+
+    /* Botones Táctiles 3D */
+    .btn {
+      background: var(--btn-bg);
+      color: var(--btn-text);
+      border: none;
+      padding: 16px 24px;
+      border-radius: 18px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      width: 100%;
+      cursor: pointer;
+      position: relative;
+      top: 0;
+      /* Relieve 3D con borde inferior grueso y sombra proyectada */
+      box-shadow: 
+        0 6px 0 #000000, 
+        0 12px 20px rgba(0, 0, 0, 0.2),
+        inset 0 2px 2px rgba(255, 255, 255, 0.2);
+      transition: all 0.1s ease;
+    }
+
+    .btn:active {
+      top: 4px;
+      box-shadow: 
+        0 2px 0 #000000, 
+        0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn:disabled {
+      background: var(--disabled);
+      color: #666666;
+      box-shadow: 0 4px 0 #a3a3a3;
+      top: 0;
+      cursor: not-allowed;
+    }
+
+    .btn-secondary {
+      background: #f4f4f6;
+      color: var(--text-primary);
+      border: 1px solid #d0d0d5;
+      font-size: 0.85rem;
+      padding: 12px;
+      border-radius: 14px;
+      font-weight: 700;
+      box-shadow: 
+        0 4px 0 #c2c2cb,
+        0 6px 12px rgba(0, 0, 0, 0.08),
+        inset 0 2px 2px #ffffff;
+    }
+
+    .btn-secondary:active {
+      top: 2px;
+      box-shadow: 0 2px 0 #c2c2cb;
+    }
+
+    /* Status & Timer Box con relieve 3D */
+    .status-box {
+      text-align: center;
+      background: var(--card-bg);
+      border: 2px solid var(--card-border);
+      padding: 22px;
+      border-radius: 24px;
+      width: 100%;
+      box-shadow: 
+        0 12px 24px rgba(80, 20, 70, 0.12),
+        inset 0 3px 6px rgba(255, 255, 255, 0.85),
+        inset 0 -4px 6px rgba(0, 0, 0, 0.06);
+    }
+
+    .status-title {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      font-weight: 700;
+    }
+
+    .timer {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--accent);
+      margin-top: 6px;
+      letter-spacing: 1px;
+      text-shadow: 0 2px 4px rgba(224, 139, 213, 0.5);
+    }
+
+    /* Carta 3D Flip Area */
+    .card-stage {
+      width: 100%;
+      perspective: 1200px;
+    }
+
+    .flip-card {
+      width: 100%;
+      height: 190px;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .flip-card.flipped {
+      transform: rotateY(180deg);
+    }
+
+    .flip-face {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 22px;
+      box-sizing: border-box;
+      box-shadow: 
+        0 15px 35px rgba(60, 10, 50, 0.2),
+        inset 0 3px 6px rgba(255, 255, 255, 0.9),
+        inset 0 -4px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .flip-front {
+      background: linear-gradient(145deg, #ffffff 0%, #f0e2ec 100%);
+      border: 3px dashed #e08bd5;
+      color: var(--text-primary);
+    }
+
+    .flip-back {
+      background: linear-gradient(145deg, #ffffff 0%, #f7edf5 100%);
+      transform: rotateY(180deg);
+      border: 2px solid #e08bd5;
+      color: var(--text-primary);
+    }
+
+    /* Inventario con Tarjetas Volumétricas */
+    .inventory {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-top: 6px;
+    }
+
+    .section-title {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #333333;
+      font-weight: 800;
+      text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
+    }
+
+    .saved-card {
+      background: var(--card-bg);
+      border: 2px solid var(--card-border);
+      border-radius: 22px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 
+        0 10px 20px rgba(80, 20, 70, 0.12),
+        inset 0 3px 5px rgba(255, 255, 255, 0.85),
+        inset 0 -4px 6px rgba(0, 0, 0, 0.05);
+      animation: slideUp 0.3s ease;
+    }
+
+    .saved-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; width: 6px; height: 100%;
+      background: #8e2a82;
+      box-shadow: 2px 0 4px rgba(0,0,0,0.15);
+    }
+
+    .card-title {
+      font-weight: 800;
+      font-size: 1.05rem;
+      color: var(--text-primary);
+    }
+
+    .card-desc {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      font-weight: 500;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 32px 16px;
+      color: #333333;
+      font-size: 0.88rem;
+      font-weight: 600;
+      border: 2px dashed rgba(255, 255, 255, 0.8);
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 22px;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.04);
+    }
+
+    .hidden { display: none !important; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <span class="badge">EDICIÓN ESPECIAL</span>
+      <h1>Feliz Segundo Aniversario</h1>
+    </header>
+
+    <!-- Modal primera vez -->
+    <div id="welcome-modal" class="modal-overlay hidden">
+      <div class="modal">
+        <div class="modal-icon">🎁</div>
+        <p>Mi último regalito para este hermoso día son 30 pequeños regalos que vamos a ir descubriendo a lo largo de un mes.</p>
+        <button class="btn" id="btn-start">Comenzar</button>
+      </div>
+    </div>
+
+    <!-- Panel de extracción -->
+    <div class="status-box">
+      <div id="status-message" class="status-title">Podés sacar una carta nueva</div>
+      <div id="timer" class="timer hidden">00:00:00</div>
+    </div>
+
+    <!-- Animación de Carta -->
+    <div class="card-stage hidden" id="card-stage">
+      <div class="flip-card" id="flip-card">
+        <div class="flip-face flip-front">
+          <span style="font-size: 2rem; margin-bottom: 8px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));">✨</span>
+          <span style="font-size: 0.85rem; font-weight: 800; letter-spacing: 1px; color: #111111;">DESCUBRIENDO...</span>
+        </div>
+        <div class="flip-face flip-back">
+          <div id="revealed-title" class="card-title" style="margin-bottom: 6px; text-align: center;"></div>
+          <div id="revealed-desc" class="card-desc" style="text-align: center;"></div>
+        </div>
+      </div>
+    </div>
+
+    <button id="btn-draw" class="btn">Sacar carta del día</button>
+
+    <!-- Inventario (Máx 2) -->
+    <div class="inventory">
+      <div class="section-title" id="inventory-count">TUS CARTAS GUARDADAS (0/2)</div>
+      <div id="cards-container"></div>
+    </div>
+
+    <button id="btn-notify" class="btn btn-secondary">Activar recordatorio diario</button>
+  </div>
+
+  <script>
+    const MAZO = [
+      { id: 1, titulo: "Masaje descontracturante", desc: "20 minutos de masaje con crema o aceite y música tranquila." },
+      { id: 2, titulo: "Desayuno en la cama", desc: "Servido el día que elijas con todo lo que te guste." },
+      { id: 3, titulo: "Chef privado por una noche", desc: "Elegís entrada, plato principal y postre; yo cocino y limpio todo." },
+      { id: 4, titulo: "Noche de pizza/hamburguesas caseras", desc: "Con los ingredientes y toppings a tu elección." },
+      { id: 5, titulo: "Vale por tu merienda favorita", desc: "Salida a una cafetería o pedido a domicilio de pastelería." },
+      { id: 6, titulo: "Postre casero a pedido", desc: "Tu torta, postre o dulce favorito hecho en casa." },
+      { id: 7, titulo: "Sorpresa dulce", desc: "Un antojo entregado en tu lugar de trabajo o estudio." },
+      { id: 8, titulo: "Noche de cine en casa", desc: "Película a tu elección, pochoclos/snacks y control remoto exclusivo." },
+      { id: 9, titulo: "Picnic al aire libre", desc: "Salida a la tarde con manta, mates o vino y comida preparada." },
+      { id: 10, titulo: "Vale por un \"SÍ\" a esa salida", desc: "Válido para acompañarte a ese lugar o evento que me da fiaca." },
+      { id: 11, titulo: "Escapada de día", desc: "Paseo de fin de semana a las sierras o día de campo." },
+      { id: 12, titulo: "Control de la pantalla/música por 24h", desc: "Elección libre de series, videos o música sin protestas." },
+      { id: 13, titulo: "Un pequeño capricho", desc: "Comprarte ese gusto chico que venís mirando hace días." },
+      { id: 14, titulo: "Comodín \"Tenés razón\"", desc: "Gana automáticamente una discusión tonta o cotidiana al instante." },
+      { id: 15, titulo: "DJ exclusivo del auto por 1 día", desc: "Manejás la música de todos los viajes durante un día entero." },
+      { id: 16, titulo: "Vale por un deseo/fantasía", desc: "A convenir para sumar un toque divertido a la intimidad." },
+      { id: 17, titulo: "Despertador con café/mate caliente", desc: "Despertarte suavemente con tu bebida preferida lista." },
+      { id: 18, titulo: "Vale por 1 kg de helado a la noche", desc: "Pedido a domicilio de tus gustos favoritos a la hora del antojo." },
+      { id: 19, titulo: "Planificación total del finde", desc: "Armo un itinerario completo de fin de semana pensado 100% a tu gusto." },
+      { id: 20, titulo: "Striptease improvisado", desc: "Un show privado y divertido preparado exclusivamente para vos." },
+      { id: 21, titulo: "Mozo personal de sillón", desc: "Llevo agua, snacks o lo que pidas directamente a la cama o al sillón sin que te levantes." },
+      { id: 22, titulo: "Masaje de cabeza y cepillado", desc: "15 minutos de mimos en el cuero cabelludo antes de dormir." },
+      { id: 23, titulo: "Día de fotos y paseo", desc: "Salida relajada dedicada a sacarte buenas fotos en lugares lindos." },
+      { id: 24, titulo: "Licencia para pedir un favor a deshora", desc: "Vale por un antojo o pedido simple a cualquier hora de la noche." },
+      { id: 25, titulo: "Hacer las compras completas", desc: "Ir al súper o dietética con tu lista para liberarte ese tiempo." },
+      { id: 26, titulo: "Tarde de arte/manualidades y copas", desc: "Pintar algo simple o hacer un proyecto creativo juntos tomando algo." },
+      { id: 27, titulo: "Cena temática internacional", desc: "Noche mexicana, japonesa o italiana en casa con ambientación acorde." },
+      { id: 28, titulo: "Caminata nocturna y helado", desc: "Salir a dar una vuelta tranquilos cuando baja el sol a buscar helado a pie." },
+      { id: 29, titulo: "Escucha atenta sin consejos", desc: "Escuchar cualquier catarsis sobre tu día sin opinar ni buscar soluciones, solo contención." },
+      { id: 30, titulo: "Elección de mi outfit por un día", desc: "Vos elegís cómo me visto para una salida o un día entero sin que me pueda quejar." }
+    ];
+
+    let inventory = JSON.parse(localStorage.getItem('inventory')) || [];
+    let drawnIds = JSON.parse(localStorage.getItem('drawnIds')) || [];
+    let lastDrawTime = localStorage.getItem('lastDrawTime') ? parseInt(localStorage.getItem('lastDrawTime')) : 0;
+    let hasSeenWelcome = localStorage.getItem('hasSeenWelcome') === 'true';
+
+    const welcomeModal = document.getElementById('welcome-modal');
+    const btnStart = document.getElementById('btn-start');
+    const btnDraw = document.getElementById('btn-draw');
+    const btnNotify = document.getElementById('btn-notify');
+    const cardsContainer = document.getElementById('cards-container');
+    const statusMessage = document.getElementById('status-message');
+    const timerElement = document.getElementById('timer');
+    const inventoryCount = document.getElementById('inventory-count');
+    const cardStage = document.getElementById('card-stage');
+    const flipCard = document.getElementById('flip-card');
+    const revealedTitle = document.getElementById('revealed-title');
+    const revealedDesc = document.getElementById('revealed-desc');
+
+    const COOLDOWN_TIME = 24 * 60 * 60 * 1000;
+
+    function init() {
+      if (!hasSeenWelcome) {
+        welcomeModal.classList.remove('hidden');
+      }
+
+      btnStart.addEventListener('click', () => {
+        hasSeenWelcome = true;
+        localStorage.setItem('hasSeenWelcome', 'true');
+        welcomeModal.classList.add('hidden');
+      });
+
+      btnDraw.addEventListener('click', drawCard);
+      btnNotify.addEventListener('click', requestNotificationPermission);
+
+      renderInventory();
+      updateStatus();
+      setInterval(updateStatus, 1000);
+    }
+
+    function updateStatus() {
+      const now = Date.now();
+      const timePassed = now - lastDrawTime;
+      const canDrawTime = timePassed >= COOLDOWN_TIME;
+      const hasSpace = inventory.length < 2;
+      const hasCardsLeft = drawnIds.length < MAZO.length;
+
+      if (!hasCardsLeft) {
+        statusMessage.textContent = "¡Completaron las 30 cartas del aniversario!";
+        timerElement.classList.add('hidden');
+        btnDraw.disabled = true;
+        return;
+      }
+
+      if (!hasSpace) {
+        statusMessage.textContent = "Inventario lleno (máx. 2 cartas). Usá una para sacar la siguiente.";
+        timerElement.classList.add('hidden');
+        btnDraw.disabled = true;
+      } else if (canDrawTime) {
+        statusMessage.textContent = "¡Tenés una carta lista para descubrir!";
+        timerElement.classList.add('hidden');
+        btnDraw.disabled = false;
+      } else {
+        const remainingTime = COOLDOWN_TIME - timePassed;
+        statusMessage.textContent = "Próxima carta disponible en:";
+        timerElement.classList.remove('hidden');
+        timerElement.textContent = formatTime(remainingTime);
+        btnDraw.disabled = true;
+      }
+    }
+
+    function drawCard() {
+      const availableCards = MAZO.filter(card => !drawnIds.includes(card.id));
+      if (availableCards.length === 0 || inventory.length >= 2) return;
+
+      const randomIndex = Math.floor(Math.random() * availableCards.length);
+      const newCard = availableCards[randomIndex];
+
+      cardStage.classList.remove('hidden');
+      flipCard.classList.remove('flipped');
+      revealedTitle.textContent = newCard.titulo;
+      revealedDesc.textContent = newCard.desc;
+
+      setTimeout(() => {
+        flipCard.classList.add('flipped');
+      }, 300);
+
+      setTimeout(() => {
+        inventory.push(newCard);
+        drawnIds.push(newCard.id);
+        lastDrawTime = Date.now();
+
+        localStorage.setItem('inventory', JSON.stringify(inventory));
+        localStorage.setItem('drawnIds', JSON.stringify(drawnIds));
+        localStorage.setItem('lastDrawTime', lastDrawTime.toString());
+
+        renderInventory();
+        updateStatus();
+      }, 1200);
+    }
+
+    function useCard(cardId) {
+      inventory = inventory.filter(card => card.id !== cardId);
+      localStorage.setItem('inventory', JSON.stringify(inventory));
+      renderInventory();
+      updateStatus();
+    }
+
+    function renderInventory() {
+      inventoryCount.textContent = `TUS CARTAS GUARDADAS (${inventory.length}/2)`;
+      cardsContainer.innerHTML = '';
+
+      if (inventory.length === 0) {
+        cardsContainer.innerHTML = '<div class="empty-state">No tenés cartas guardadas.<br>¡Sacá una para guardarla en tu mazo!</div>';
+        return;
+      }
+
+      inventory.forEach(card => {
+        const cardEl = document.createElement('div');
+        cardEl.className = 'saved-card';
+        cardEl.innerHTML = `
+          <div class="card-title">${card.titulo}</div>
+          <div class="card-desc">${card.desc}</div>
+          <button class="btn btn-secondary" style="margin-top: 4px;" onclick="useCard(${card.id})">Marcar como canjeada</button>
+        `;
+        cardsContainer.appendChild(cardEl);
+      });
+    }
+
+    function formatTime(ms) {
+      const totalSeconds = Math.floor(ms / 1000);
+      const hours = Math.floor(totalSeconds / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = totalSeconds % 60;
+      return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    }
+
+    function requestNotificationPermission() {
+      if ('Notification' in window) {
+        Notification.requestPermission().then(permission => {
+          if (permission === 'granted') {
+            alert('¡Recordatorio activado!');
+          }
+        });
+      } else {
+        alert('Este navegador no admite notificaciones.');
+      }
+    }
+
+    init();
+  </script>
+</body>
+</html>
